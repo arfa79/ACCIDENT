@@ -1,1 +1,62 @@
-__pycache__
+# =========================
+# General
+# =========================
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+.idea/
+.venv/
+
+# =========================
+# Dataset (keep structure, ignore contents)
+# =========================
+dataset/*
+!dataset/.gitkeep
+!dataset/__init__.py
+!dataset/accident_dataset.py
+!dataset/download_dataset.sh
+!dataset/requirements.txt
+!dataset/README.md
+
+# Keep directory structure
+!dataset/downloads/
+!dataset/raw/
+!dataset/real_videos/
+!dataset/synthetic_videos/
+
+# Ignore contents inside those dirs
+dataset/downloads/*
+dataset/raw/*
+dataset/real_videos/*
+dataset/synthetic_videos/*
+
+# Keep placeholders
+!dataset/downloads/.gitkeep
+!dataset/raw/.gitkeep
+!dataset/real_videos/.gitkeep
+!dataset/synthetic_videos/.gitkeep
+
+# =========================
+# Baselines - Heuristic
+# =========================
+baselines/heuristic/inference-yolo11x/
+baselines/heuristic/optical_flow.pkl
+baselines/heuristic/output*.csv
+baselines/heuristic/submission.csv
+baselines/heuristic/*.pt
+
+# =========================
+# Baselines - LLM
+# =========================
+baselines/llm/**/results/
+baselines/llm/**/progress_*.log
+
+# =========================
+# Misc
+# =========================
+AGENTS.md
+
+# =========================================================
+# CARLA Simulation (generation/carla-simulation)
+# =========================================================
+generation/carla-simulation/out/

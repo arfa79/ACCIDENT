@@ -2,9 +2,9 @@
 
 import os
 import sys
+import pickle
 import argparse
 from pathlib import Path
-import torch
 import pandas as pd
 from tqdm import tqdm
 
@@ -16,8 +16,6 @@ sys.path.append(str(LLM_BASELINES_DIR))
 
 from dataset.accident_dataset import get_dataset_paths, default_dataset_root, resolve_dataset_root
 from reasoning.utils import get_every_nth_frame
-from reasoning.qwen import QwenVLReasoner
-from reasoning.molmo import MolmoReasoner
 
 
 def run_temporal_reasoning(model, name, df):
@@ -42,7 +40,8 @@ def run_temporal_reasoning(model, name, df):
             'pred_ts': pred_ts,
         }
 
-        torch.save(data, f"results/{name}_temporal_parts/{i}.pkl")
+        with open(f"results/{name}_temporal_parts/{i}.pkl", "wb") as f:
+            pickle.dump(data, f)
         results.append(data)
 
     return results
@@ -70,7 +69,7 @@ def main():
 
     parser.add_argument(
         "--model",
-        choices=["molmo", "qwen"],
+        choices=["molmo", "qwen", "gemini"],
         required=True,
         help="Model to use"
     )
@@ -102,13 +101,19 @@ def main():
         start, end = args.range
         df = df.iloc[start:end]
 
-    # model selection
+    # model selection (lazy imports so each backend only pulls its own deps)
     if args.model == "molmo":
+        from reasoning.molmo import MolmoReasoner
         model = MolmoReasoner()
         name = "molmo"
-    else:
+    elif args.model == "qwen":
+        from reasoning.qwen import QwenVLReasoner
         model = QwenVLReasoner()
         name = "qwen"
+    elif args.model == "gemini":
+        from reasoning.gemini import GeminiVLReasoner
+        model = GeminiVLReasoner()
+        name = "gemini"
     print(df)
 
     run_temporal_reasoning(model=model, name=name, df=df)

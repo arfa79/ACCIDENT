@@ -1,0 +1,18 @@
+# Lean dependency set for the Gemini API reasoner.
+# Use this on CPU-only machines / Colab when you do NOT need the local
+# Qwen/Molmo (transformers + torch) stack.
+#
+#     pip install -r requirements-gemini.txt
+
+# Gemini SDK
+google-genai>=0.3.0
+
+# Data / video frame extraction
+pandas>=2.1
+numpy>=1.26
+decord>=0.6.0
+Pillow>=10.0
+opencv-contrib-python>=4.9
+
+# UX
+tqdm>=4.67
